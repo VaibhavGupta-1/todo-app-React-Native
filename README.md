@@ -1,50 +1,176 @@
-# Welcome to your Expo app 👋
+# 📝 TODO App - Production-Ready Task Management
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+<div align="center">
 
-## Get started
+![React Native](https://img.shields.io/badge/React%20Native-0.81.5-61DAFB?style=for-the-badge&logo=react&logoColor=white)
+![Expo](https://img.shields.io/badge/Expo-54-000020?style=for-the-badge&logo=expo&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 
-1. Install dependencies
+**A fully-featured, offline-capable task management app with cloud sync**
 
-   ```bash
-   npm install
-   ```
+[📥 Download APK](https://drive.google.com/file/d/17JqTwwYvSMaERp9il-ouzTSrEHb1jIOG/view?usp=drivesdk) • [� Features](#features) • [� Tech Stack](#-tech-stack)
 
-2. Start the app
+</div>
 
-   ```bash
-   npx expo start
-   ```
+---
 
-In the output, you'll find options to open the app in a
+## ✨ Features
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### 🔐 **Authentication**
+- **Google OAuth** integration via Clerk
+- Secure token storage with expo-secure-store
+- Protected routes (no unauthorized access)
+- Smooth OAuth callback handling
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### 📊 **Task Management**
+- ✅ Create, edit, and delete todos
+- ✅ Mark tasks as complete/incomplete
+- ✅ Organize tasks into custom groups
+- ✅ Rich descriptions for detailed notes
+- ✅ Real-time updates across devices
 
-## Get a fresh project
+### 📁 **Task Groups**
+- Create unlimited custom groups (Work, Personal, Study, etc.)
+- Rename groups inline
+- Delete groups (with warning)
+- Visual group organization
+- Required group assignment for all tasks
 
-When you're ready, run:
+### 🎯 **Smart Sorting**
+- **Automatic sorting within groups:**
+  1. Incomplete tasks shown first
+  2. Then sorted by creation date (newest on top)
+- Clean, organized interface
+- No manual sorting needed
+
+### 💾 **Offline Mode + Cloud Sync**
+- **Full offline functionality** - works without internet
+- Local SQLite database for fast access
+- Automatic background sync when online
+- Smart conflict resolution (latest update wins)
+- Visual offline indicator
+- Queue-based sync system
+
+### 🎨 **UI/UX**
+- Clean, minimal iOS-style design
+- Smooth animations and transitions
+- Intuitive touch interactions
+- Loading states and feedback
+- Responsive layout for all screen sizes
+- Native icons and components
+
+---
+
+## 📱 APK Download
+
+### **Android APK (Direct Install)**
+📥 **[Download TODO App APK](https://drive.google.com/file/d/17JqTwwYvSMaERp9il-ouzTSrEHb1jIOG/view?usp=drivesdk)**
+
+**Installation Steps:**
+1. Download APK from link above
+2. Enable "Install from Unknown Sources" in Android settings
+3. Open downloaded APK file
+4. Tap "Install"
+5. Open app and sign in with Google
+
+**Requirements:**
+- Android 5.0 (Lollipop) or higher
+- ~50 MB storage space
+- Internet connection for initial setup
+
+---
+
+## 🛠 Tech Stack
+
+### **Frontend**
+- **React Native** 0.81.5 - Cross-platform mobile framework
+- **Expo** 54 - Development toolchain and SDK
+- **Expo Router** 6 - File-based routing system
+- **JavaScript ES6+** - Modern JavaScript features
+
+### **Authentication**
+- **Clerk** - User authentication and management
+- **@clerk/clerk-expo** 2.17.1 - Clerk React Native SDK
+- **expo-secure-store** - Encrypted token storage
+
+### **Database**
+- **Supabase** - PostgreSQL cloud database
+- **@supabase/supabase-js** 2.77.0 - Supabase client
+- **expo-sqlite** 16.0.8 - Local SQLite storage
+
+### **Networking & State**
+- **@react-native-community/netinfo** 11.4.1 - Network status
+- **expo-crypto** - Secure UUID generation
+- Custom sync manager with queue system
+
+### **UI Components**
+- React Native Core Components
+- @expo/vector-icons (Ionicons)
+- React Navigation
+
+---
+
+## � Quick Start
 
 ```bash
-npm run reset-project
+# Install dependencies
+npm install
+
+# Configure .env file with Clerk and Supabase credentials
+# EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=...
+# EXPO_PUBLIC_SUPABASE_URL=...
+# EXPO_PUBLIC_SUPABASE_ANON_KEY=...
+
+# Start development server
+npm start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## 🗄 Database Schema
 
-To learn more about developing your project with Expo, look at the following resources:
+### **groups** table
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | uuid | Primary key (UUID v4) |
+| `user_id` | text | Foreign key to Clerk user |
+| `name` | text | Group name |
+| `created_at` | timestamp | Creation timestamp |
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### **todos** table
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | uuid | Primary key (UUID v4) |
+| `user_id` | text | Foreign key to Clerk user |
+| `group_id` | uuid | Foreign key to groups.id |
+| `title` | text | Task title (required) |
+| `description` | text | Optional detailed description |
+| `is_completed` | boolean | Completion status |
+| `created_at` | timestamp | Creation timestamp |
 
-## Join the community
+---
 
-Join our community of developers creating universal apps.
+## 🏗 Architecture
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+**Offline-First Design**
+- Local SQLite database for instant responses
+- Queue-based sync system with conflict resolution
+- Automatic background sync when online
+
+**Tech Highlights**
+- File-based routing with Expo Router
+- Clerk authentication with OAuth 2.0
+- Supabase PostgreSQL with RLS policies
+- React Native Core Components
+
+---
+
+---
+
+<div align="center">
+
+**Built with ❤️ using React Native + Expo**
+
+[📥 Download APK](https://drive.google.com/file/d/17JqTwwYvSMaERp9il-ouzTSrEHb1jIOG/view?usp=drivesdk)
+
+</div>
